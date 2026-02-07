@@ -11,7 +11,7 @@ _start:
 
 	; sys_exit(return_code)
 	mov eax, 1	; sys_exit syscall
-	mov ebx, o 	; return 0 (todo correcto)
+	mov ebx, 0 	; return 0 (todo correcto)
 	int 80h 
 
 section .data
