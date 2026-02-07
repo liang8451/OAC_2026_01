@@ -14,7 +14,7 @@ _start:
 	mov ebx, o 	; return 0 (todo correcto)
 	int 80h 
 
-section.data
+section .data
 
 	message: db 'Hello, world!',0x0A	; mensaje y nueva linea
 	length: equ $-message 		; obtenemos la longitud de la cadena
