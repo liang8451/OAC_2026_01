@@ -14,14 +14,14 @@ cd /workspaces/OAC_2026_01/ejemplo/
 5.- Comprobar que este cambio se haya realizado con: 
 pwd
 
-6.- Crear un archivo con extensión .asm y con nombre “ejemplo”: 
-touch ejemplo.asm
+6.- Crear un archivo con extensión .asm y con nombre “codigo”: 
+touch codigo.asm
 
 7.-  Ensamblar el archivo creado anteriormente: 
-nasm -f elf ejemplo.asm 
+nasm -f elf codigo.asm 
 
 8.-  Enlazar el objeto creado: 
-ld -m elf_i386 -s -o ejemplo ejemplo.o 
+ld -m elf_i386 -s -o codigo codgio.o lib.a
 
 9.-  Ejecutar el programa obtenido: 
-./ejemplo
+./codigo
