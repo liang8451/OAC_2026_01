@@ -15,6 +15,7 @@ section .bss
 	;Aquí se reserva un byte para almacenar el valor ingresado.
 
 	num1 resb 1 
+	num2 resb 1
 
 section .text
 _start:
@@ -45,29 +46,52 @@ _start:
 
 	;mov edx, msj
 	;call puts
-
 	;call getch
-
 	;call putchar
 
 	;INSTRUCCION 7
 
-	mov edx, msj 
-	call puts 
-	call salto 
-	call getch 
-	call salto 
-	call putchar 
-	call salto
+	;mov edx, msj 
+	;call puts 
+	;call salto 
+	;call getch 
+	;call salto 
+	;call putchar 
+	;call salto
 
 	;INSTRUCCION 9
 
-	mov ebx, num1 
-	mov byte[ebx], al 
-	add byte[ebx], 1 
-	mov al, byte[ebx] 
-	call putchar 
+	;mov ebx, num1 
+	;mov byte[ebx], al 
+	;add byte[ebx], 1 
+	;mov al, byte[ebx] 
+	;call putchar 
 
+	;INSTRUCCION 11
+	
+	mov edx, msj 
+	call puts 
+	call salto
+	call getch
+	mov [num1], al
+	call putchar
+	call salto
+
+	call puts
+	call salto
+	call getch
+	mov [num2], al
+	call putchar
+	call salto
+
+	mov ebx, num1 
+	mov al, [ebx] 
+	mov ebx, num2 
+	add [ebx], al 
+	mov al, byte[ebx] 
+	call putchar
+	
+	call salto
 	mov eax, 1
 	mov ebx, 0
 	int 80h
