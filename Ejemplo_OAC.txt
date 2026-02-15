@@ -21,7 +21,7 @@ touch codigo.asm
 nasm -f elf codigo.asm 
 
 8.-  Enlazar el objeto creado: 
-ld -m elf_i386 -s -o codigo codgio.o lib.a
+ld -m elf_i386 -s -o codigo codigo.o lib.a
 
 9.-  Ejecutar el programa obtenido: 
 ./codigo
