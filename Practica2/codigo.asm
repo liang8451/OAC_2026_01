@@ -7,7 +7,13 @@ section .data
 	;Esto define una cadena de texto con salto de línea (0x0A) y una constante len que guarda la longitud del mensaje.
 
 	msj: db 'Ingrese un dígito (0-9)',0x0  ; mensaje 
-	len: equ $-msj	
+	len: equ $-msj
+	msj1: db 'Mensaje nuevo con puts'		;mensaje nuevo
+	len1 : equ $-msj1
+	msj2: db 'Mensaje nuevo' 
+	len2: equ $-msj2
+	msj3: db 'Otro mensaje',0x0
+	len3: equ $-msj3
 
 section .bss
 
@@ -75,6 +81,7 @@ _start:
 	call getch
 	mov [num1], al
 	call putchar
+	sub byte[num1], '0'
 	call salto
 
 	call puts
@@ -82,6 +89,7 @@ _start:
 	call getch
 	mov [num2], al
 	call putchar
+	sub byte[num2], '0'
 	call salto
 
 	mov ebx, num1 
@@ -89,8 +97,33 @@ _start:
 	mov ebx, num2 
 	add [ebx], al 
 	mov al, byte[ebx] 
+	add al, '0'
 	call putchar
 	
+
+	;//////////////////////////////////////////
+	;mov edx, msj1
+	;call puts
+	;call salto
+	
+	;mov eax, 4
+	;mov ebx, 1
+	;mov ecx, msj2
+	;mov edx, len2
+	;int 80h
+	;call salto
+
+	;mov edx, msj3
+	;call puts
+	;call salto
+
+	;mov eax, 4
+	;mov ebx, 1
+	;mov ecx, msj2
+	;mov edx, len2
+	;int 80h
+	;call salto
+
 	call salto
 	mov eax, 1
 	mov ebx, 0
