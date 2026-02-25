@@ -77,11 +77,11 @@ _start:
 	
 	mov edx, msj 
 	call puts 
+	
 	call salto
 	call getch
 	mov [num1], al
 	call putchar
-	sub byte[num1], '0'
 	call salto
 
 	call puts
@@ -89,8 +89,23 @@ _start:
 	call getch
 	mov [num2], al
 	call putchar
-	sub byte[num2], '0'
 	call salto
+
+	mov al, [num1]
+	call putchar
+
+	mov al, '+'
+	call putchar
+
+	mov al, [num2]
+	call putchar
+
+	mov al, '='
+	call putchar
+	
+
+	sub byte[num1], '0'
+	sub byte[num2], '0'
 
 	mov ebx, num1 
 	mov al, [ebx] 
@@ -100,6 +115,7 @@ _start:
 	add al, '0'
 	call putchar
 	
+
 
 	;//////////////////////////////////////////
 	;mov edx, msj1
