@@ -80,32 +80,38 @@ _start:
 	
 	call salto
 	call getch
-	mov [num1], al
+	mov ebx, num1
+	mov [ebx], al
 	call putchar
 	call salto
 
 	call puts
 	call salto
 	call getch
-	mov [num2], al
+	mov ebx, num2
+	mov [ebx], al
 	call putchar
 	call salto
 
-	mov al, [num1]
+	mov ebx, num1
+	mov al, [ebx]
 	call putchar
 
 	mov al, '+'
 	call putchar
 
-	mov al, [num2]
+	mov ebx, num2
+	mov al, [ebx]
 	call putchar
 
 	mov al, '='
 	call putchar
 	
 
-	sub byte[num1], '0'
-	sub byte[num2], '0'
+	mov ebx, num1
+	sub byte[ebx], '0'
+	mov ebx, num2
+	sub byte[ebx], '0'
 
 	mov ebx, num1 
 	mov al, [ebx] 
