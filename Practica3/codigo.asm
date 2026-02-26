@@ -2,12 +2,12 @@
   global _start
 
 section .data
-  msj1: db 'Ingrese un numero (0-9)',0x0
+  msj1: db 'Ingrese un numero (1-9)',0x0
   len1: equ $-msj1
 
 
 section .bss
-    num1: resb 1
+    num1: resb 2
     num2: resb 2
     cadena: resb 2
 
@@ -26,7 +26,7 @@ section .text
 	call putchar
   call salto
   
-  ;LO MUESTRA msj1 EN edx
+  ;MUESTRA msj1 EN edx
   call puts
   call salto
 
@@ -64,21 +64,33 @@ section .text
 	sub byte[ebx], '0'
 
   ;MULTIPLICACION
-  mov cl, 1 ;CONTADOR
-  mov ebx, num2 ;MUEVE num2 A ebx
-  mov al, byte[ebx] ;al TIENE num2
-  mov edx, num1 ;MUEVE num1 A edx
+  mov ebx, num1
+  mov ecx, [ebx] ;CONTADOR DEL LOOP, EMPIEZA CON num1
+  mov al, 0 ;al GUARDA LA SUMA
+  mov ebx, num2
 
   sumar:
-    cmp cl , byte[edx]
-    je finsumar
     add al, byte[ebx]
-    inc cl
-    jmp sumar
-    
-  finsumar:
-    mov esi, cadena
-    call printHex
+  loop sumar
+
+  mov esi, cadena
+  call printHex
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   ;MUESTRA msj1 EN edx
@@ -91,7 +103,7 @@ section .text
 	mov [ebx], al
 	call putchar
   call salto
-  
+
   ;MUESTRA msj1 EN edx
   call puts
   call salto
@@ -102,6 +114,7 @@ section .text
 	mov [ebx], al
 	call putchar
   call salto
+
 
   ;MUESTRA EL num1
   mov ebx, num1
@@ -117,7 +130,7 @@ section .text
 	mov al, [ebx]
 	call putchar
 
-  ;MUESTRA x
+  ;MUESTRA =
   mov al, '='
 	call putchar
 
@@ -130,23 +143,27 @@ section .text
 	sub byte[ebx], '0'
 
   ;DIVISION
-  mov cl, 1 ;CONTADOR
-  mov ebx, num2 ;MUEVE num2 A ebx
-  mov al, byte[ebx] ;al TIENE num2
-  mov edx, num1 ;MUEVE num1 A edx
+  mov cl, 0 ;cl GUARDA LAS VECES QUE SE RESTA
+  mov ebx, num1
+  mov eax, [ebx] ;eax GUARDA num1
+  mov ebx, num2
+  mov ebx, [ebx] ;ebx GUARDA num2
+  cmp ebx, 0
+  je salirRestar
+  
 
-  mov ecx, 4
-  .rep:
-  sub edx, ebx
-  cmp edx, 0
-  je finrestar
+  restar:
+  cmp eax, 0
+  je salirRestar
+  sub eax, ebx
   inc cl
-  loop .rep
-
-  finrestar:
-  mov esi, cadena
+  jmp restar
+  
+  salirRestar:
   mov al, cl
+  mov esi, cadena
   call printHex
+
   call salto
   mov eax, 1
 	mov ebx, 0
