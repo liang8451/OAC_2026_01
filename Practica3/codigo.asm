@@ -193,6 +193,7 @@ section .text
   mov al, cl
   mov esi, cadena
   call printHex
+	call salto
 
 
 
@@ -210,9 +211,8 @@ section .text
 
 
 
-  call salto
-  mov ecx, 101
-  mov bl, 0
+  mov ecx, 101 ;VECES A REPETIR EL LOOP 
+  mov bl, 0 ;CONTADOR EMPIEZA EN 0
   mov esi, cadena
 
   contador:
@@ -222,6 +222,7 @@ section .text
     call putchar
     inc bl
     loop contador
+	call salto
 
 
 
@@ -234,8 +235,8 @@ section .text
 
 
 
-call salto
-mov bl, 0
+
+mov bl, 0 ;CONTADOR EMPIEZA EN ZERO
 
   
 contadorPar:
@@ -243,7 +244,7 @@ mov al, bl
 call printHex
 mov al, ' '
 call putchar
-cmp bl, 100
+cmp bl, 100 ;LIMITE SUPERIOR DEL CONTADOR
 je salirContadorPar
 inc bl
 inc bl
