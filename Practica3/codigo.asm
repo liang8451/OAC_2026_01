@@ -5,7 +5,6 @@ section .data
   msj1: db 'Ingrese un numero (1-9)',0x0
   len1: equ $-msj1
 
-
 section .bss
     num1: resb 2
     num2: resb 2
@@ -63,6 +62,22 @@ section .text
 	mov ebx, num2
 	sub byte[ebx], '0'
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   ;MULTIPLICACION
   mov ebx, num1
   mov ecx, [ebx] ;CONTADOR DEL LOOP, EMPIEZA CON num1
@@ -75,8 +90,7 @@ section .text
 
   mov esi, cadena
   call printHex
-
-
+  call salto
 
 
 
@@ -115,7 +129,6 @@ section .text
 	call putchar
   call salto
 
-
   ;MUESTRA EL num1
   mov ebx, num1
 	mov al, [ebx]
@@ -142,13 +155,30 @@ section .text
 	mov ebx, num2
 	sub byte[ebx], '0'
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   ;DIVISION
   mov cl, 0 ;cl GUARDA LAS VECES QUE SE RESTA
   mov ebx, num1
   mov eax, [ebx] ;eax GUARDA num1
   mov ebx, num2
   mov ebx, [ebx] ;ebx GUARDA num2
-  cmp ebx, 0
+  
+  cmp ebx, 0 ;DIVISION ENTRE 0
   je salirRestar
   
 
@@ -163,6 +193,65 @@ section .text
   mov al, cl
   mov esi, cadena
   call printHex
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  call salto
+  mov ecx, 101
+  mov bl, 0
+  mov esi, cadena
+
+  contador:
+    mov al, bl
+    call printHex
+    mov al, ' '
+    call putchar
+    inc bl
+    loop contador
+
+
+
+
+
+
+
+
+
+
+
+
+call salto
+mov bl, 0
+
+  
+contadorPar:
+mov al, bl
+call printHex
+mov al, ' '
+call putchar
+cmp bl, 100
+je salirContadorPar
+inc bl
+inc bl
+jmp contadorPar
+
+salirContadorPar:
+
+
 
   call salto
   mov eax, 1
@@ -206,3 +295,4 @@ printHex:
   int 80h
   popad
   ret
+
