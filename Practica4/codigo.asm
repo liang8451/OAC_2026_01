@@ -7,7 +7,8 @@ section .data
     msj2: db 'Es palindromooo',0x0
     msj3: db 'No es palindromo', 0x0
 section .bss
-    texto: resb 20
+    texto: resb 30
+    largo: resb 1
 
 
 section .text
@@ -17,11 +18,13 @@ _start:
 
     mov edx, texto
     call capturar
+    call salto
     call palindromo
     call salto
 
     mov edx, texto
     call puts
+    call salto
 
     mov eax, 1
     mov ebx, 0
@@ -34,7 +37,7 @@ capturar:
 
         .captura:
         call getche         ;CAPTURA DE CARACTER Y ECO
-        cmp al, 10          ;if (CARACTER == \n){PONE 0 EN EL ULTIMO SLOT}
+        cmp al, 10         ;if (CARACTER == \n){PONE 0 EN EL ULTIMO SLOT}
         je .salirCaptura
         mov [edx+esi], al
         inc esi
@@ -43,22 +46,32 @@ capturar:
         .salirCaptura:
         mov byte[edx+esi], 0
 
+        mov ebx, largo
+        mov [ebx], esi
+
         popad
         ret
 
 palindromo:
         pushad
     
-        mov esi, 0
+        ;mov esi, 0
 
-        .longitud:
-            cmp byte[edx+esi], 0
-            je .salirLongitud
-            inc esi
-            jmp .longitud
-    
-        .salirLongitud:
-        mov ebx, esi
+        ;.longitud:
+        ;    cmp byte[edx+esi], 0
+        ;    je .salirLongitud
+        ;    inc esi
+        ;    jmp .longitud
+
+        ;.salirLongitud:
+        
+        ;mov ebx, esi
+        
+
+        mov ebx, largo
+        mov ebx, [ebx]
+
+
         sub ebx, 1 ;NUMERO DE LETRAS -1
         mov esi, 0 ;CONTADOR DE RECORRIDO
     
@@ -86,6 +99,23 @@ palindromo:
         popad 
         ret
 
+escribir:
+        pushad
+
+        mov esi, 0
+
+        .escribir:
+        mov al, [edx+esi]
+        cmp al, '.' ;CARACTER ESPECIAL DE TERMINACION
+        je .salirEscribir
+        inc esi
+        call putchar
+        jmp .escribir
+
+        .salirEscribir:
+
+        popad
+        ret
 
 
 
