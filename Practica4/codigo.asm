@@ -7,8 +7,7 @@ section .data
     msj2: db 'Es palindromooo',0x0
     msj3: db 'No es palindromo', 0x0
 section .bss
-    texto: rest 2
-    largo: resb 1
+    texto: resb 20
 
 
 section .text
@@ -16,10 +15,8 @@ _start:
     mov edx, msj 
     call puts
 
-    mov ebx, texto
+    mov edx, texto
     call capturar
-
-    mov ebx, texto
     call palindromo
     call salto
 
@@ -30,95 +27,64 @@ _start:
     mov ebx, 0
     int 80h
 
-
-
-
-
-
 capturar:
         pushad
 
-        mov esi, 0
+        mov esi, 0          ;INDICE DE LA CADENA EN AUMENTO
 
         .captura:
-        call getche
-        cmp al, 10
+        call getche         ;CAPTURA DE CARACTER Y ECO
+        cmp al, 10          ;if (CARACTER == \n){PONE 0 EN EL ULTIMO SLOT}
         je .salirCaptura
-        mov [ebx+esi], al
+        mov [edx+esi], al
         inc esi
         jmp .captura
     
         .salirCaptura:
-        mov al, 0
-        mov [ebx+esi], al
-
-        mov ebx, largo
-        mov [ebx], esi
+        mov byte[edx+esi], 0
 
         popad
         ret
 
 palindromo:
-    pushad
-    mov esi, 0
-    mov al, 0 ;PORQUEEEEEE
-
-    ;.longitud:
-    ;    cmp byte[ebx+esi], al
-    ;    je .salirLongitud
-    ;    inc esi
-    ;
-    ;    jmp .longitud
-    ;
-    ;.salirLongitud:
-
-    mov esi, largo
-    mov esi, [esi]
-
-    mov edx, esi
-    sub edx, 1 ;NUMERO DE LETRAS -1
-
-    mov edi, ebx
-    add edi, edx ;POSICION FINAL DE LA CADENA
-
-    mov esi, ebx ;POSICION INICIAL DE LA CADENA
+        pushad
     
-    mov ecx, 0 ;CONTADOR DE RECORRIDO
-    .palindromo:
+        mov esi, 0
 
+        .longitud:
+            cmp byte[edx+esi], 0
+            je .salirLongitud
+            inc esi
+            jmp .longitud
+    
+        .salirLongitud:
+        mov ebx, esi
+        sub ebx, 1 ;NUMERO DE LETRAS -1
+        mov esi, 0 ;CONTADOR DE RECORRIDO
+    
+        .palindromo:
+        mov al, byte[edx+esi] ; LETRAS EMPEZANDO DE LA IZQUIERDA
+        mov edi, ebx
+        sub edi, esi
+        mov ah, byte[edx+edi] ; LETRAS EMPEZANDO DE LA DERECHA
+        cmp al, ah
+        jne .noPalindromo       ;NO ES PALINDROMO SI NO SON IGUALES
+        cmp esi, ebx            
+        je .esPalindromo        ;ES PALINDROMO SI NO SE ENCONTRO NINGUNA DIFERENCIA
+        inc esi
+        jmp .palindromo
 
-    mov al, byte[esi+ecx] ; LETRAS EMPEZANDO DE LA IZQUIERDA
-   
-    mov ebx, edx
-    sub ebx, ecx
+        .esPalindromo:
+        mov edx, msj2
+        call puts
+        popad
+        ret
 
-    mov ah, byte[esi+ebx] ; LETRAS EMPEZANDO DE LA DERECHA
-    cmp al, ah
-    jne .noPalindromo
-
-    cmp ecx, edx
-    je .esPalindromo
-
-
-    inc ecx
-    jmp .palindromo
-
-
-    .esPalindromo:
-    mov edx, msj2
-    call puts
-    popad
-    ret
-
-    .noPalindromo:
-    ;mov eax, 0
-    ;mov eax,ecx
-    ;add eax, '0'
-    ;call  putchar
-    mov edx, msj3
-    call puts
-    popad 
-    ret
+        .noPalindromo:
+        mov edx, msj3
+        call puts
+        popad 
+        ret
 
 
 
