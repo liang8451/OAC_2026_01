@@ -45,9 +45,10 @@ call salto  ;TERMINA PROGRAMA ARBOLITO
 
 ;PROGRAMA CAJA
 
-    call getch              ;RECIBE UN CARACTER EN al
-    sub al, '0'             ;CONVIERTE CARACTER A NUMERO
-
+    call getche              ;RECIBE UN CARACTER EN al
+    sub al, '0'              ;CONVIERTE CARACTER A NUMERO
+    call salto
+    
     mov ah, al              ;EL NUMERO INGRESADO SE GUARDA PERMANENTEMENTE EN ah
     mov cl, ah              ;cl GUARDA EL NUMERO INGRESADO
 
