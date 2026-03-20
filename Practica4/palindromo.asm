@@ -4,7 +4,7 @@ global _start
 
 section .data
     msj: db 'Texto: ',0x0
-    msj2: db 'Es palindromooo',0x0
+    msj2: db 'Es palindromo',0x0
     msj3: db 'No es palindromo', 0x0
 section .bss
     texto: resb 30
