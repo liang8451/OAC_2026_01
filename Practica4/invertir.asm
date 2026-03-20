@@ -3,7 +3,7 @@
 global _start
 
 section .data
-    
+    msj: db 'Texto: ',0x0
 section .bss
     cad: resb 30
     largo: resb 1
@@ -11,14 +11,10 @@ section .bss
 section .text
     _start:
 
+    mov edx, msj
+    call puts
+
     mov edx, cad
-
-
-    call capturar
-    call invertirConXCHG
-    call escribir
-
-    call salto
 
     call capturar
     call invertir
@@ -29,7 +25,6 @@ section .text
     mov eax, 1
     mov ebx, 0
     int 80h
-
 
     invertirConXCHG:
         pushad
