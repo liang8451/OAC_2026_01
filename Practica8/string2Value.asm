@@ -4,6 +4,7 @@ global _start
 
 section .data
     cad: db '0110111100011000'
+    cad2: db '12345'
     
 section .bss
     hex: resb 10 
@@ -18,12 +19,27 @@ call cadBintoHex
 
 mov esi, hex
 call printHex
+call salto
+
+
+mov eax, 0
+
+mov edx, cad2
+call cadDectoHex
+
+mov esi, hex
+call printHex
+call salto
 
 mov eax, 1
 mov ebx, 0
 int 80h
 
 cadBintoHex:
+    push esi
+    push ecx
+    push bx
+
     mov esi, 0
     mov ecx, 16
 
@@ -47,7 +63,51 @@ cadBintoHex:
 
     loop .recorrido
 
+    pop bx
+    pop ecx
+    pop esi
+
     ret
+
+cadDectoHex:
+  mov ebp, edx
+  mov ax, 0
+  mov bx, 0
+  mov ecx, 5
+  mov dx, 0
+  mov esi, 0
+
+  .recorrido:
+    mov ax, 0
+    mov al, [ebp+ecx-1]
+    sub al, '0'
+
+    cmp esi, 0
+    je .sumar
+
+    push ecx
+    mov ecx, esi
+
+    .multiplicar:
+      mov dx, 10
+      mul dx
+    loop .multiplicar
+
+    pop ecx
+    
+    .sumar:
+      add bx, ax
+
+    inc esi
+
+  loop .recorrido
+
+mov ax, bx
+ret
+
+  
+  
+    
 
 
 printHex:
@@ -79,3 +139,10 @@ printHex:
   popad
   ret
 
+salto:
+push ax
+mov al, 13
+call putchar
+mov al, 10
+call putchar
+pop ax
