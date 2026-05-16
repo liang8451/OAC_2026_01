@@ -30,6 +30,12 @@ printDecimal:
   xor cx, cx
   xor dx, dx
 
+  cmp ax, 0
+  jne .convertir
+  mov al, '0'
+  call putchar
+  jmp .salirImprimir
+
   .convertir:
     cmp ax, 0
     je .salirConvertir
@@ -97,7 +103,7 @@ capturarArreglo:
   movzx cx, al
   push cx
   call salto
-  
+
   cmp cx, 0
   je .salir 
 
