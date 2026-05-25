@@ -24,9 +24,11 @@ _start:
 printDecimal:
   ;AX RECIBE EL VALOR A IMPRIMIR EN DECIMAL
   push ax
+  push bx
   push cx
   push dx
 
+  mov bx, 10
   xor cx, cx
   xor dx, dx
 
@@ -39,13 +41,10 @@ printDecimal:
   .convertir:
     cmp ax, 0
     je .salirConvertir
-
-    mov dl, 10
-    div dl
-    movzx dx, ah
+    xor dx,dx
+    div bx
     push dx 
     inc cx
-    movzx ax, al
   jmp .convertir
   .salirConvertir:
 
@@ -62,31 +61,97 @@ printDecimal:
   
   pop dx
   pop cx
+  pop bx
   pop ax
 ret
-
 
 capturarDecimal:
   ;AX DEVUELVE EL VALOR DE 3 DIGITOS
   push dx
   xor dx, dx
+  
   call getche
   sub al, '0'
   mov ah, 100
   mul ah
   add dx, ax
+  
   call getche
   sub al, '0'
   mov ah, 10
   mul ah
   add dx, ax
+ 
   call getche
   sub al, '0'
   add dx, ax
+  
   mov ax, dx
   pop dx
   call salto
 ret
+
+capturarDecimalNuevo:
+  ;AX DEVUELVE EL VALOR DE n DIGITOS
+  push bx
+  push cx
+  push dx
+
+
+  xor ax, ax
+  xor bx, bx
+  xor cx, cx
+  xor dx, dx
+
+  .capturar:
+    call getche
+    
+    cmp al, '.'
+    je .salirCapturar
+
+    sub al, '0'
+    movzx ax, al
+    push ax
+    inc cx
+
+  jmp .capturar
+  .salirCapturar:
+  
+  xor ax,ax
+  cmp cx, 0
+  je .saltarSumar
+
+  pop dx
+  dec cx
+
+  cmp cx, 0
+  je .saltarSumar
+
+  .sumar:
+    inc bx
+    pop ax
+
+    push cx
+    push dx
+    mov cx, bx
+    .potencia:
+      mov dx, 10
+      mul dx
+    loop .potencia
+
+    pop dx
+    pop cx
+    
+    add dx, ax
+  loop .sumar
+  .saltarSumar:
+  mov ax, dx
+  pop dx
+  pop cx
+  pop bx
+  call salto
+ret
+
 
 capturarArreglo:
   ;EBX RECIBE LA DIRECCION DEL arreglo
@@ -110,7 +175,7 @@ capturarArreglo:
   mov edx, msj2
   .capturar:
     call puts 
-    call capturarDecimal
+    call capturarDecimalNuevo
     mov [ebx+esi*2], ax
     inc esi 
   loop .capturar
@@ -184,10 +249,10 @@ ret
 
 
 salto:
-push ax
-mov al, 13
-call putchar
-mov al, 10
-call putchar
-pop ax
+  push ax 
+  mov al, 13
+  call putchar
+  mov al, 10
+  call putchar
+  pop ax
 ret
