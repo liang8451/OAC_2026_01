@@ -11,9 +11,6 @@ _start:
   int 80h
 
 putchar:
-  push ebp
-  mov ebp, esp
-  
   push eax
   push ebx
   push ecx
@@ -35,7 +32,5 @@ putchar:
   pop ecx
   pop ebx
   pop eax
-  pop ebp
 
 ret
-  
